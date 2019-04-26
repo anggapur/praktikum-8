@@ -78,6 +78,7 @@
                         </li>
                         <li class="<?=($activePage == 'buku') ? 'active' : ''?>"><a href="<?= base_url('Buku/index')?>"><i class="notika-icon notika-app"></i> Data Buku</a>
                         <li class="<?=($activePage == 'anggota') ? 'active' : ''?>"><a href="<?= base_url('Anggota/index')?>"><i class="notika-icon notika-app"></i> Data Anggota</a>
+                        <li class="<?=($activePage == 'petugas') ? 'active' : ''?>"><a href="<?= base_url('Petugas/index')?>"><i class="notika-icon notika-app"></i> Data Petugas</a>
                         <li class="<?=($activePage == 'peminjaman') ? 'active' : ''?>"><a href="<?= base_url('Peminjaman/index')?>"><i class="notika-icon notika-app"></i> Data Peminjaman</a>
                         </li>
                         <?php } elseif($this->session->has_userdata('kd_anggota')) { ?>

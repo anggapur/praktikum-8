@@ -22,7 +22,7 @@ class AdminPetugas extends CI_Controller {
 
 	public function __construct(){
         parent::__construct();
-        $this->load->model(['BukuModel','AnggotaModel']);	
+        $this->load->model(['BukuModel','AnggotaModel','PetugasModel']);	
          if(!$this->session->has_userdata('kd_petugas'))
 		{
 			redirect('login');
@@ -35,6 +35,7 @@ class AdminPetugas extends CI_Controller {
 		$data['activePage'] = $this->page;
 		$data['countBuku'] = count($this->BukuModel->getData());
 		$data['countAnggota'] = count($this->AnggotaModel->getData());
+		$data['countPetugas'] = count($this->PetugasModel->getData());
 		$this->load->view('layout/header',$data);
 		$this->load->view('AdminPetugas/index',$data);
 		$this->load->view('layout/footer');
