@@ -70,4 +70,11 @@ class AnggotaModel extends CI_Model {
 
             return $q;
         }
+         public function updateLastLogin()
+        {   
+            $where = ['kd_anggota' => $this->session->userdata('kd_anggota')];
+            $data = ['last_login' => date('Y-m-d H:i:s')];
+            $q = $this->db->where($where)->update($this->table,$data);
+            return $q;
+        }
 }

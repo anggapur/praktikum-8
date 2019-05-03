@@ -43,10 +43,15 @@ class Login extends CI_Controller {
 					'username' => $query->result()[0]->username
 				);
 				$this->session->set_userdata($userdata);
+				// Update last login
+				$this->load->model(['PetugasModel']);	
+				$this->PetugasModel->updateLastLogin();
 				redirect('AdminPetugas/index');
 			}
 			else
 			{
+				$this->session->set_flashdata('state', 'danger');
+				$this->session->set_flashdata('message', 'Kombinasi Username, Password dan Jenis User Tidak Ditemukan');
 				redirect('Login');
 			}
 		}
@@ -70,10 +75,15 @@ class Login extends CI_Controller {
 					'username' => $query->result()[0]->username
 				);
 				$this->session->set_userdata($userdata);
+				// Update last login
+				$this->load->model(['AnggotaModel']);	
+				$this->AnggotaModel->updateLastLogin();
 				redirect('PeminjamanBuku/index');
 			}
 			else
 			{
+				$this->session->set_flashdata('state', 'danger');
+				$this->session->set_flashdata('message', 'Kombinasi Username, Password dan Jenis User Tidak Ditemukan');
 				redirect('Login');
 			}
 		}

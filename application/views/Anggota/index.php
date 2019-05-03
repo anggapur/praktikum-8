@@ -10,8 +10,8 @@
                                     <i class="notika-icon notika-form"></i>
                                 </div>
                                 <div class="breadcomb-ctn">
-                                     <h2>Data Buku</h2>
-                                    <p>Daftar Buku Di Perpustakaan</p>
+                                     <h2>Data Anggota</h2>
+                                    <p>Daftar Anggota Di Perpustakaan</p>
                                 </div>
                             </div>
                         </div>

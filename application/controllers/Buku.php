@@ -53,13 +53,13 @@ class Buku extends CI_Controller {
 		if($q)
 		{
 			$this->session->set_flashdata('state', 'success');
-			$this->session->set_flashdata('message', 'Berhasil Tambah Data');
+			$this->session->set_flashdata('message', 'Berhasil Tambah Data Buku');
 			redirect($this->view.'index');
 		}
 		else
 		{
 			$this->session->set_flashdata('state', 'danger');
-			$this->session->set_flashdata('message', 'Gagal Tambah Data');
+			$this->session->set_flashdata('message', 'Gagal Tambah Data Buku');
 			redirect($this->view.'index');
 		}
 	}
@@ -82,13 +82,13 @@ class Buku extends CI_Controller {
 		if($q)
 		{
 			$this->session->set_flashdata('state', 'success');
-			$this->session->set_flashdata('message', 'Berhasil Update Data');
+			$this->session->set_flashdata('message', 'Berhasil Update Data Buku');
 			redirect($this->view.'index');
 		}
 		else
 		{
 			$this->session->set_flashdata('state', 'danger');
-			$this->session->set_flashdata('message', 'Gagal Update Data');
+			$this->session->set_flashdata('message', 'Gagal Update Data Buku');
 			redirect($this->view.'index');
 		}
 	}
@@ -100,13 +100,13 @@ class Buku extends CI_Controller {
 		if($q)
 		{
 			$this->session->set_flashdata('state', 'success');
-			$this->session->set_flashdata('message', 'Berhasil Hapus Data');
+			$this->session->set_flashdata('message', 'Berhasil Hapus Data Buku');
 			redirect($this->view.'index');
 		}
 		else
 		{
 			$this->session->set_flashdata('state', 'danger');
-			$this->session->set_flashdata('message', 'Gagal Hapus Data');
+			$this->session->set_flashdata('message', 'Gagal Hapus Data Buku');
 			redirect($this->view.'index');
 		}
 	}

@@ -61,6 +61,11 @@
     <div class="login-content">
         <!-- Login -->
         <div class="nk-block toggled" id="l-login">
+             <?php if($this->session->flashdata('state')) { ?>
+            <div class="alert alert-<?=$this->session->flashdata('state')?>">
+                <?= $this->session->flashdata('message')?>
+            </div>
+             <?php } ?>
             <div class="nk-form">
                 <form method="POST" action="<?= base_url('login/proses')?>">
                     <div class="input-group">
@@ -79,8 +84,8 @@
                         <span class="input-group-addon nk-ic-st-pro"><i class="notika-icon notika-edit"></i></span>
                         <div class="nk-int-st">
                             <select class="form-control" name="jenis">
-                                <option value="anggota">Anggota</option>
                                 <option value="petugas">Petugas</option>
+                                <option value="anggota">Anggota</option>
                             </select>
                         </div>
                     </div>                    
@@ -166,6 +171,13 @@
     <!-- main JS
 		============================================ -->
     <script src="<?= base_url('asset/js//main.js')?>"></script>
+    <script type="text/javascript">
+        $(document).ready(function(){
+            setTimeout(function(){
+                $('.alert').fadeOut(3000);
+            },3000);
+        });
+    </script>
 </body>
 
 </html>

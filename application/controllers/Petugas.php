@@ -55,13 +55,13 @@ class Petugas extends CI_Controller {
 		if($q)
 		{
 			$this->session->set_flashdata('state', 'success');
-			$this->session->set_flashdata('message', 'Berhasil Tambah Data');
+			$this->session->set_flashdata('message', 'Berhasil Tambah Data Petugas');
 			redirect($this->view.'index');
 		}
 		else
 		{
 			$this->session->set_flashdata('state', 'danger');
-			$this->session->set_flashdata('message', 'Gagal Tambah Data');
+			$this->session->set_flashdata('message', 'Gagal Tambah Data Petugas');
 			redirect($this->view.'index');
 		}
 	}
@@ -86,13 +86,13 @@ class Petugas extends CI_Controller {
 		if($q)
 		{
 			$this->session->set_flashdata('state', 'success');
-			$this->session->set_flashdata('message', 'Berhasil Update Data');
+			$this->session->set_flashdata('message', 'Berhasil Update Data Petugas');
 			redirect($this->view.'index');
 		}
 		else
 		{
 			$this->session->set_flashdata('state', 'danger');
-			$this->session->set_flashdata('message', 'Gagal Update Data');
+			$this->session->set_flashdata('message', 'Gagal Update Data Petugas');
 			redirect($this->view.'index');
 		}
 	}
@@ -104,13 +104,13 @@ class Petugas extends CI_Controller {
 		if($q)
 		{
 			$this->session->set_flashdata('state', 'success');
-			$this->session->set_flashdata('message', 'Berhasil Hapus Data');
+			$this->session->set_flashdata('message', 'Berhasil Hapus Data Petugas');
 			redirect($this->view.'index');
 		}
 		else
 		{
 			$this->session->set_flashdata('state', 'danger');
-			$this->session->set_flashdata('message', 'Gagal Hapus Data');
+			$this->session->set_flashdata('message', 'Gagal Hapus Data Petugas');
 			redirect($this->view.'index');
 		}
 	}

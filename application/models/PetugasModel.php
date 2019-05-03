@@ -70,4 +70,12 @@ class PetugasModel extends CI_Model {
 
             return $q;
         }
+
+        public function updateLastLogin()
+        {   
+            $where = ['kd_petugas' => $this->session->userdata('kd_petugas')];
+            $data = ['last_login' => date('Y-m-d H:i:s')];
+            $q = $this->db->where($where)->update($this->table,$data);
+            return $q;
+        }
 }
