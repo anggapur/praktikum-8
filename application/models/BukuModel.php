@@ -3,10 +3,37 @@
 class BukuModel extends CI_Model {
 
 		public $table = "buku";
-        public function getData()
+        public function getData($limit=10,$from=0,$search = null)
         {
-                $q = $this->db->get($this->table)->result();
-                return $q;
+                if($search !== null)
+                {
+                    $this->db->or_like(
+                        [
+                            'judul_buku' => $search,
+                            'pengarang' => $search,
+                            'penerbit' => $search,
+                            'tahun_terbit' => $search
+                        ]
+                    );
+                }
+                $q = $this->db->get($this->table,$limit,$from);
+                return $q->result();;
+        }
+        public function allData($search = null)
+        {
+            if($search !== null)
+            {
+                $this->db->or_like(
+                    [
+                        'judul_buku' => $search,
+                        'pengarang' => $search,
+                        'penerbit' => $search,
+                        'tahun_terbit' => $search
+                    ]
+                );
+            }
+            $q = $this->db->get($this->table);
+            return $q->num_rows();
         }
         public function getDataPinjamAnggota()
         {   
@@ -22,17 +49,48 @@ class BukuModel extends CI_Model {
                 return $q;
         }
 
-        public function getDataPinjamAnggotaByPetugas()
+        public function getDataPinjamAnggotaByPetugas($limit=10,$from=0,$search = null)
         {   
+            if($search !== null)
+                {
+                    $this->db->or_like(
+                        [
+                            'buku.judul_buku' => $search,
+                            'anggota.nama' => $search,
+                        ]
+                    );
+                }
+
                 $q = $this->db
                 ->join('detil_pinjam', 'peminjaman.kd_pinjam = detil_pinjam.kd_pinjam')
                 ->join('petugas', 'peminjaman.kd_petugas = petugas.kd_petugas')
                 ->join('anggota', 'peminjaman.kd_anggota = anggota.kd_anggota')
                 ->join('buku', 'buku.kd_register = detil_pinjam.kd_register')
                 ->select('buku.*,petugas.*,detil_pinjam.*,petugas.nama as namaPetugas,anggota.nama as namaAnggota')
-                ->get('peminjaman')
+                ->get('peminjaman',$limit,$from)
                 ->result();
                 return $q;
+        }
+        public function allDataPinjamAnggotaByPetugas($search = null)
+        {   
+            if($search !== null)
+                {
+                    $this->db->or_like(
+                        [
+                            'buku.judul_buku' => $search,
+                            'anggota.nama' => $search,
+                        ]
+                    );
+                }
+
+                $q = $this->db
+                ->join('detil_pinjam', 'peminjaman.kd_pinjam = detil_pinjam.kd_pinjam')
+                ->join('petugas', 'peminjaman.kd_petugas = petugas.kd_petugas')
+                ->join('anggota', 'peminjaman.kd_anggota = anggota.kd_anggota')
+                ->join('buku', 'buku.kd_register = detil_pinjam.kd_register')
+                ->select('buku.*,petugas.*,detil_pinjam.*,petugas.nama as namaPetugas,anggota.nama as namaAnggota')
+                ->get('peminjaman');
+                return $q->num_rows();
         }
 
         public function insertData($data)

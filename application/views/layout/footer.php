@@ -1,4 +1,9 @@
 </main>
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('.table').DataTable();
+    } );
+</script>
 <!-- Start Footer area-->
     <div class="footer-copyright-area"  style="">
         <div class="container">

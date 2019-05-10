@@ -20,23 +20,56 @@ class Peminjaman extends CI_Controller {
 	 */
 	public $page = 'peminjaman';
 	public $view = 'Peminjaman/';
+	public $limit = 2;
 	public function __construct(){
         parent::__construct();
-        $this->load->model(['BukuModel','AnggotaModel']);
+        $this->load->model(['BukuModel','AnggotaModel','GlobalModel']);
         if(!$this->session->has_userdata('kd_petugas'))
 		{
 			redirect('login');
 		}
       }
 	public function index()
-	{	
-		// print_r($this->session->userdata());
-		$data['listBuku'] = $this->BukuModel->getDataPinjamAnggotaByPetugas();
-		$data['activePage'] = $this->page;
+	{			
+		$search = "";
+	    if($this->input->post('submit') != NULL ){
+	      $search = $this->input->post('search');
+	      $this->session->set_userdata(array("search"=>$search));
+	    }
+	    else if($this->input->post('reload') != NULL ){
+	    	$search = "";
+	    	$this->session->unset_userdata('search');
+	    }
+	    else{
+	      if($this->session->userdata('search') != NULL){
+	        $search = $this->session->userdata('search');
+	      }
+	    }
 
-		// print_r($data['listBuku']);
+		$from = $this->uri->segment(3);
+		$data['listBuku'] = $this->BukuModel->getDataPinjamAnggotaByPetugas($this->limit,$from,$search);
+		$data['limitPerPage'] = $this->limit;
+		$data['activePage'] = $this->page;
+		$data['search'] =  ($search == null) ? '' : $search;
+
+		$this->load->library('pagination');
+		$config = $this->GlobalModel->paginationConfig();
+		$config['base_url'] = base_url().'/Peminjaman/index';
+		$config['total_rows'] = $this->BukuModel->allDataPinjamAnggotaByPetugas($search);
+		$config['per_page'] = $this->limit;
+		$config['enable_query_strings'] = TRUE;
+		$this->pagination->initialize($config);
+
 		$this->load->view('layout/header',$data);
 		$this->load->view($this->view.'index',$data);
+		$this->load->view('layout/footer');
+	}
+	public function datatable()
+	{
+		$data['activePage'] = $this->page;
+		$data['listBuku'] = $this->BukuModel->getDataPinjamAnggotaByPetugas(100000,0);
+		$this->load->view('layout/header',$data);
+		$this->load->view($this->view.'datatable',$data);
 		$this->load->view('layout/footer');
 	}
 	public function create()

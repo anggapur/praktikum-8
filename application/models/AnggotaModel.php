@@ -3,10 +3,37 @@
 class AnggotaModel extends CI_Model {
 
 		public $table = "anggota";
-        public function getData()
+        public function getData($limit=10,$from=0,$search = null)
         {
-                $q = $this->db->get($this->table)->result();
-                return $q;
+                if($search !== null)
+                {
+                    $this->db->or_like(
+                        [
+                            'nama' => $search,
+                            'prodi' => $search,
+                            'jenjang' => $search,
+                            'alamat' => $search
+                        ]
+                    );
+                }
+                $q = $this->db->get($this->table,$limit,$from);
+                return $q->result();;
+        }
+        public function allData($search = null)
+        {
+            if($search !== null)
+            {
+                $this->db->or_like(
+                    [
+                        'nama' => $search,
+                        'prodi' => $search,
+                        'jenjang' => $search,
+                        'alamat' => $search
+                    ]
+                );
+            }
+            $q = $this->db->get($this->table);
+            return $q->num_rows();
         }
 
         public function insertData($data)

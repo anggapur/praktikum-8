@@ -54,9 +54,12 @@
     <!-- responsive CSS
 		============================================ -->
     <link rel="stylesheet" href="<?= base_url('asset/css/responsive.css')?>">
+    <link rel="stylesheet" href="<?= base_url('asset/DataTables/datatables.min.css')?>">
     <!-- modernizr JS
 		============================================ -->
-    <script src="<?= base_url('asset/js/vendor/modernizr-2.8.3.min.js')?>')?>"></script>
+    <script src="<?= base_url('asset/js/vendor/modernizr-2.8.3.min.js')?>"></script>
+    <script src="<?= base_url('asset/jquery.js')?>"></script>
+    <script src="<?= base_url('asset/DataTables/datatables.min.js')?>"></script>
 </head>
 
 <body style>

@@ -40,6 +40,21 @@
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                     <div class="normal-table-list">
                         <div class="bsc-tbl">
+                            <form method='post' action="<?= base_url() ?>Anggota/index">
+                                <div class="form-group">
+                                <div class="row">
+                                    <div class="col-xs-3">
+                                        <div class="nk-int-st">
+                                            <input type="text" name="search" class="form-control input-sm" placeholder="Cari" value="<?=$search?>">
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-3">
+                                        <input type="submit" name="submit" class="btn btn-success notika-btn-success btn-sm" value="Cari">
+                                        <input type="submit" name="reload" class="btn btn-warning notika-btn-warning btn-sm" value="Reload">
+                                    </div>
+                                </div>
+                            </div>
+                            </form>
                             <table class="table table-sc-ex">
                                 <thead>
                                     <tr>
@@ -70,6 +85,7 @@
                                     
                                 </tbody>
                             </table>
+                            <?= $this->pagination->create_links(); ?>
                         </div>
                     </div>
                 </div>

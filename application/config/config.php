@@ -26,7 +26,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 
 $config['base_url'] = 'http://localhost/perpustakaan/';
-
+$config['limit_pagination'] = 10;
 /*
 |--------------------------------------------------------------------------
 | Index File

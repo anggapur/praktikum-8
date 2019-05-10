@@ -20,9 +20,10 @@ class Petugas extends CI_Controller {
 	 */
 	public $page = 'petugas';
 	public $view = 'Petugas/';
+	public $limit = 2;
 	public function __construct(){
         parent::__construct();
-        $this->load->model('PetugasModel');
+        $this->load->model(['PetugasModel','GlobalModel']);
          if(!$this->session->has_userdata('kd_petugas'))
 		{
 			redirect('login');
@@ -31,10 +32,45 @@ class Petugas extends CI_Controller {
 	public function index()
 	{
 
-		$data['listBuku'] = $this->PetugasModel->getData();
+		$search = "";
+	    if($this->input->post('submit') != NULL ){
+	      $search = $this->input->post('search');
+	      $this->session->set_userdata(array("search"=>$search));
+	    }
+	    else if($this->input->post('reload') != NULL ){
+	    	$search = "";
+	    	$this->session->unset_userdata('search');
+	    }
+	    else{
+	      if($this->session->userdata('search') != NULL){
+	        $search = $this->session->userdata('search');
+	      }
+	    }
+
+		$from = $this->uri->segment(3);
+		$data['listBuku'] = $this->PetugasModel->getData($this->limit,$from,$search);
+		$data['limitPerPage'] = $this->limit;
 		$data['activePage'] = $this->page;
+		$data['search'] =  ($search == null) ? '' : $search;
+
+		$this->load->library('pagination');
+		$config = $this->GlobalModel->paginationConfig();
+		$config['base_url'] = base_url().'/Petugas/index';
+		$config['total_rows'] = $this->PetugasModel->allData($search);
+		$config['per_page'] = $this->limit;
+		$config['enable_query_strings'] = TRUE;
+		$this->pagination->initialize($config);
+
 		$this->load->view('layout/header',$data);
 		$this->load->view($this->view.'index',$data);
+		$this->load->view('layout/footer');
+	}
+	public function datatable()
+	{
+		$data['activePage'] = $this->page;
+		$data['listBuku'] = $this->PetugasModel->getData(10000,0);
+		$this->load->view('layout/header',$data);
+		$this->load->view($this->view.'datatable',$data);
 		$this->load->view('layout/footer');
 	}
 	public function create()
