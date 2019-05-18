@@ -40,7 +40,7 @@
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                     <div class="normal-table-list">
                         <div class="bsc-tbl">
-                            <table class="table table-sc-ex">
+                            <table class="dtable table table-sc-ex">
                                 <thead>
                                     <tr>
                                         <th>#</th>

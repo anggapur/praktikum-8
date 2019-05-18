@@ -2,6 +2,12 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                 <div class="alert alert-success" style="display: none;">
+                    
+                </div>
+                <div class="alert alert-danger" style="display: none;">
+                    
+                </div>
                 <form method="POST" action="<?= base_url('Petugas/update/'.$dataBuku[0]->kd_petugas)?>">
                     <div class="form-example-wrap mg-t-30">
                         <div class="cmp-tb-hd cmp-int-hd">
@@ -78,3 +84,35 @@
         </div>
     </div>
 </div>
+<script type="text/javascript">
+    $(document).ready(function(){
+        $('form').submit(function(e){
+            e.preventDefault();
+            $.ajax({
+                method : $(this).attr('method'),
+                url : $(this).attr('action'),
+                data : $(this).serializeArray(),
+                dataType : 'json',
+                success : function(data){
+                    if(data.status == 'success')
+                    {
+                        $('.alert-success').html(data.message);
+                        $('.alert-success').fadeIn();
+                        setTimeout(function(){
+                            $('.alert-success').fadeOut();
+                        },3000);
+                        // $('form').find('input').val('');
+                    }
+                    else
+                    {
+                        $('.alert-danger').html(data.message);
+                        $('.alert-danger').fadeIn();
+                        setTimeout(function(){
+                            $('.alert-danger').fadeOut();
+                        },3000);  
+                    }
+                }
+            });
+        });
+    });
+</script>

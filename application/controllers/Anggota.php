@@ -20,7 +20,7 @@ class Anggota extends CI_Controller {
 	 */
 	public $page = 'anggota';
 	public $view = 'Anggota/';
-	public $limit = 2;
+	public $limit = 10;
 	public function __construct(){
         parent::__construct();
         $this->load->model(['AnggotaModel','GlobalModel']);
@@ -85,20 +85,35 @@ class Anggota extends CI_Controller {
 
 	public function store()
 	{
+		// Validation
+		$variable = ['nama','prodi','jenjang','alamat','username','password'];
+		foreach ($variable as $key => $value) {
+			$nameLabel = ucwords(str_replace('_',' ',$value));
+			$this->form_validation->set_rules($value,$nameLabel,'required');
+		}
+		
+ 
+		if($this->form_validation->run() == false){
+			echo json_encode(['status' => 'failed' , 'message' => validation_errors()]);
+			return 0;
+		}	
+
 		$dataInsert = $this->input->post();
 		$dataInsert['password'] = md5($dataInsert['password']);
 		$q = $this->AnggotaModel->insertData($dataInsert);
 		if($q)
 		{
-			$this->session->set_flashdata('state', 'success');
-			$this->session->set_flashdata('message', 'Berhasil Tambah Data Anggota');
-			redirect($this->view.'index');
+			echo json_encode(['status' => 'success','message' => 'Berhasil Tambah Data Anggota']);
+			// $this->session->set_flashdata('state', 'success');
+			// $this->session->set_flashdata('message', 'Berhasil Tambah Data Anggota');
+			// redirect($this->view.'index');
 		}
 		else
 		{
-			$this->session->set_flashdata('state', 'danger');
-			$this->session->set_flashdata('message', 'Gagal Tambah Data Anggota');
-			redirect($this->view.'index');
+			echo json_encode(['status' => 'failed','message' => 'Gagal Tambah Data Anggota']);
+			// $this->session->set_flashdata('state', 'danger');
+			// $this->session->set_flashdata('message', 'Gagal Tambah Data Anggota');
+			// redirect($this->view.'index');
 		}
 	}
 
@@ -115,19 +130,35 @@ class Anggota extends CI_Controller {
 
 	public function update($id)
 	{
+
+		// Validation
+		$variable = ['nama','prodi','jenjang','alamat','username'];
+		foreach ($variable as $key => $value) {
+			$nameLabel = ucwords(str_replace('_',' ',$value));
+			$this->form_validation->set_rules($value,$nameLabel,'required');
+		}
+		
+ 
+		if($this->form_validation->run() == false){
+			echo json_encode(['status' => 'failed' , 'message' => validation_errors()]);
+			return 0;
+		}	
+
 		$where = ['kd_anggota' => $id];
 		$q = $this->AnggotaModel->updateData($where,$this->input->post());
 		if($q)
 		{
-			$this->session->set_flashdata('state', 'success');
-			$this->session->set_flashdata('message', 'Berhasil Update Data Anggota');
-			redirect($this->view.'index');
+			echo json_encode(['status' => 'success','message' => 'Berhasil Update Data Anggota']);
+			// $this->session->set_flashdata('state', 'success');
+			// $this->session->set_flashdata('message', 'Berhasil Update Data Anggota');
+			// redirect($this->view.'index');
 		}
 		else
 		{
-			$this->session->set_flashdata('state', 'danger');
-			$this->session->set_flashdata('message', 'Gagal Update Data Anggota');
-			redirect($this->view.'index');
+			echo json_encode(['status' => 'failed','message' => 'Gagal Update Data Anggota']);
+			// $this->session->set_flashdata('state', 'danger');
+			// $this->session->set_flashdata('message', 'Gagal Update Data Anggota');
+			// redirect($this->view.'index');
 		}
 	}
 
@@ -137,15 +168,17 @@ class Anggota extends CI_Controller {
 		$q = $this->AnggotaModel->deleteData($where);
 		if($q)
 		{
-			$this->session->set_flashdata('state', 'success');
-			$this->session->set_flashdata('message', 'Berhasil Hapus Data Anggota');
-			redirect($this->view.'index');
+			echo json_encode(['status' => 'success','message' => 'Berhasil Hapus Data Anggota']);
+		// 	$this->session->set_flashdata('state', 'success');
+		// 	$this->session->set_flashdata('message', 'Berhasil Hapus Data Anggota');
+		// 	redirect($this->view.'index');
 		}
 		else
 		{
-			$this->session->set_flashdata('state', 'danger');
-			$this->session->set_flashdata('message', 'Gagal Hapus Data Anggota');
-			redirect($this->view.'index');
+			echo json_encode(['status' => 'failed','message' => 'Gagal Hapus Data Anggota']);
+			// $this->session->set_flashdata('state', 'danger');
+			// $this->session->set_flashdata('message', 'Gagal Hapus Data Anggota');
+			// redirect($this->view.'index');
 		}
 	}
 }

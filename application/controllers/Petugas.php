@@ -20,7 +20,7 @@ class Petugas extends CI_Controller {
 	 */
 	public $page = 'petugas';
 	public $view = 'Petugas/';
-	public $limit = 2;
+	public $limit = 10;
 	public function __construct(){
         parent::__construct();
         $this->load->model(['PetugasModel','GlobalModel']);
@@ -85,20 +85,35 @@ class Petugas extends CI_Controller {
 
 	public function store()
 	{
+		// Validation
+		$variable = ['nama','alamat','username','password'];
+		foreach ($variable as $key => $value) {
+			$nameLabel = ucwords(str_replace('_',' ',$value));
+			$this->form_validation->set_rules($value,$nameLabel,'required');
+		}
+		
+ 
+		if($this->form_validation->run() == false){
+			echo json_encode(['status' => 'failed' , 'message' => validation_errors()]);
+			return 0;
+		}	
+
 		$dataInsert = $this->input->post();
 		$dataInsert['password'] = md5($dataInsert['password']);
 		$q = $this->PetugasModel->insertData($dataInsert);
 		if($q)
 		{
-			$this->session->set_flashdata('state', 'success');
-			$this->session->set_flashdata('message', 'Berhasil Tambah Data Petugas');
-			redirect($this->view.'index');
+			echo json_encode(['status' => 'success','message' => 'Berhasil Tambah Data Petugas']);
+			// $this->session->set_flashdata('state', 'success');
+			// $this->session->set_flashdata('message', 'Berhasil Tambah Data Petugas');
+			// redirect($this->view.'index');
 		}
 		else
 		{
-			$this->session->set_flashdata('state', 'danger');
-			$this->session->set_flashdata('message', 'Gagal Tambah Data Petugas');
-			redirect($this->view.'index');
+			echo json_encode(['status' => 'failed','message' => 'Gagal Tambah Data Petugas']);
+			// $this->session->set_flashdata('state', 'danger');
+			// $this->session->set_flashdata('message', 'Gagal Tambah Data Petugas');
+			// redirect($this->view.'index');
 		}
 	}
 
@@ -115,21 +130,36 @@ class Petugas extends CI_Controller {
 
 	public function update($id)
 	{
+		// Validation
+		$variable = ['nama','alamat','username'];
+		foreach ($variable as $key => $value) {
+			$nameLabel = ucwords(str_replace('_',' ',$value));
+			$this->form_validation->set_rules($value,$nameLabel,'required');
+		}
+		
+ 
+		if($this->form_validation->run() == false){
+			echo json_encode(['status' => 'failed' , 'message' => validation_errors()]);
+			return 0;
+		}	
+
 		$where = ['kd_petugas' => $id];
 		$dataUpdate = $this->input->post();
 		$dataUpdate['password'] = md5($dataUpdate['password']);
 		$q = $this->PetugasModel->updateData($where,$dataUpdate);
 		if($q)
 		{
-			$this->session->set_flashdata('state', 'success');
-			$this->session->set_flashdata('message', 'Berhasil Update Data Petugas');
-			redirect($this->view.'index');
+			echo json_encode(['status' => 'success','message' => 'Berhasil Update Data Petugas']);
+			// $this->session->set_flashdata('state', 'success');
+			// $this->session->set_flashdata('message', 'Berhasil Update Data Petugas');
+			// redirect($this->view.'index');
 		}
 		else
 		{
-			$this->session->set_flashdata('state', 'danger');
-			$this->session->set_flashdata('message', 'Gagal Update Data Petugas');
-			redirect($this->view.'index');
+			echo json_encode(['status' => 'failed','message' => 'Gagal Update Data Petugas']);
+			// $this->session->set_flashdata('state', 'danger');
+			// $this->session->set_flashdata('message', 'Gagal Update Data Petugas');
+			// redirect($this->view.'index');
 		}
 	}
 
@@ -139,15 +169,17 @@ class Petugas extends CI_Controller {
 		$q = $this->PetugasModel->deleteData($where);
 		if($q)
 		{
-			$this->session->set_flashdata('state', 'success');
-			$this->session->set_flashdata('message', 'Berhasil Hapus Data Petugas');
-			redirect($this->view.'index');
+			echo json_encode(['status' => 'success','message' => 'Berhasil Hapus Data Petugas']);
+			// $this->session->set_flashdata('state', 'success');
+			// $this->session->set_flashdata('message', 'Berhasil Hapus Data Petugas');
+			// redirect($this->view.'index');
 		}
 		else
 		{
-			$this->session->set_flashdata('state', 'danger');
-			$this->session->set_flashdata('message', 'Gagal Hapus Data Petugas');
-			redirect($this->view.'index');
+			echo json_encode(['status' => 'failed','message' => 'Gagal Hapus Data Petugas']);
+			// $this->session->set_flashdata('state', 'danger');
+			// $this->session->set_flashdata('message', 'Gagal Hapus Data Petugas');
+			// redirect($this->view.'index');
 		}
 	}
 }

@@ -41,7 +41,7 @@
                     <div class="normal-table-list">
                         <div class="bsc-tbl">
                             
-                            <table class="table table-sc-ex">
+                            <table class="dtable table table-sc-ex">
                                 <thead>
                                     <tr>
                                         <th>#</th>

@@ -20,10 +20,11 @@ class Buku extends CI_Controller {
 	 */
 	public $page = 'buku';
 	public $view = 'Buku/';
-	public $limit = 2;
+	public $limit = 10;
 	public function __construct(){
         parent::__construct();
         $this->load->model(['BukuModel','GlobalModel']);
+        // $this->load->library('form_validation');
         if(!$this->session->has_userdata('kd_petugas'))
 		{
 			redirect('login');
@@ -86,23 +87,39 @@ class Buku extends CI_Controller {
 
 	public function store()
 	{
+		// Validation
+		$variable = ['judul_buku','pengarang','penerbit','tahun_terbit'];
+		foreach ($variable as $key => $value) {
+			$nameLabel = ucwords(str_replace('_',' ',$value));
+			$this->form_validation->set_rules($value,$nameLabel,'required');
+		}
+		
+ 
+		if($this->form_validation->run() == false){
+			echo json_encode(['status' => 'failed' , 'message' => validation_errors()]);
+			return 0;
+		}		
+
 		$q = $this->BukuModel->insertData($this->input->post());
 		if($q)
 		{
-			$this->session->set_flashdata('state', 'success');
-			$this->session->set_flashdata('message', 'Berhasil Tambah Data Buku');
-			redirect($this->view.'index');
+			echo json_encode(['status' => 'success','message' => 'Berhasil Tambah Data Buku']);
+			// $this->session->set_flashdata('state', 'success');
+			// $this->session->set_flashdata('message', 'Berhasil Tambah Data Buku');
+			// redirect($this->view.'index');
 		}
 		else
 		{
-			$this->session->set_flashdata('state', 'danger');
-			$this->session->set_flashdata('message', 'Gagal Tambah Data Buku');
-			redirect($this->view.'index');
+			echo json_encode(['status' => 'failed','message' => 'Gagal Tambah Data Buku']);
+			// $this->session->set_flashdata('state', 'danger');
+			// $this->session->set_flashdata('message', 'Gagal Tambah Data Buku');
+			// redirect($this->view.'index');
 		}
 	}
 
 	public function edit($id)
 	{
+
 
 		$where = ['kd_register' => $id];
 		$data['dataBuku'] = $this->BukuModel->getOneData($where);
@@ -114,19 +131,33 @@ class Buku extends CI_Controller {
 
 	public function update($id)
 	{
+		// Validation
+		$variable = ['judul_buku','pengarang','penerbit','tahun_terbit'];
+		foreach ($variable as $key => $value) {
+			$nameLabel = ucwords(str_replace('_',' ',$value));
+			$this->form_validation->set_rules($value,$nameLabel,'required');
+		}
+		if($this->form_validation->run() == false){
+			echo json_encode(['status' => 'failed' , 'message' => validation_errors()]);
+			return 0;
+		}		
+
+
 		$where = ['kd_register' => $id];
 		$q = $this->BukuModel->updateData($where,$this->input->post());
 		if($q)
 		{
-			$this->session->set_flashdata('state', 'success');
-			$this->session->set_flashdata('message', 'Berhasil Update Data Buku');
-			redirect($this->view.'index');
+			echo json_encode(['status' => 'success','message' => 'Berhasil Update Data Buku']);
+			// $this->session->set_flashdata('state', 'success');
+			// $this->session->set_flashdata('message', 'Berhasil Update Data Buku');
+			// redirect($this->view.'index');
 		}
 		else
 		{
-			$this->session->set_flashdata('state', 'danger');
-			$this->session->set_flashdata('message', 'Gagal Update Data Buku');
-			redirect($this->view.'index');
+			echo json_encode(['status' => 'failed','message' => 'Gagal Update Data Buku']);
+			// $this->session->set_flashdata('state', 'danger');
+			// $this->session->set_flashdata('message', 'Gagal Update Data Buku');
+			// redirect($this->view.'index');
 		}
 	}
 
@@ -136,15 +167,17 @@ class Buku extends CI_Controller {
 		$q = $this->BukuModel->deleteData($where);
 		if($q)
 		{
-			$this->session->set_flashdata('state', 'success');
-			$this->session->set_flashdata('message', 'Berhasil Hapus Data Buku');
-			redirect($this->view.'index');
+			echo json_encode(['status' => 'success','message' => 'Berhasil Delete Data Buku']);
+			// $this->session->set_flashdata('state', 'success');
+			// $this->session->set_flashdata('message', 'Berhasil Hapus Data Buku');
+			// redirect($this->view.'index');
 		}
 		else
 		{
-			$this->session->set_flashdata('state', 'danger');
-			$this->session->set_flashdata('message', 'Gagal Hapus Data Buku');
-			redirect($this->view.'index');
+			echo json_encode(['status' => 'failed','message' => 'Gagal Delete Data Buku']);
+			// $this->session->set_flashdata('state', 'danger');
+			// $this->session->set_flashdata('message', 'Gagal Hapus Data Buku');
+			// redirect($this->view.'index');
 		}
 	}
 }

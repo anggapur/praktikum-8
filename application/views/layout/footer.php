@@ -1,7 +1,7 @@
 </main>
 <script type="text/javascript">
     $(document).ready(function() {
-        $('.table').DataTable();
+        $('.dtable').DataTable();
     } );
 </script>
 <!-- Start Footer area-->

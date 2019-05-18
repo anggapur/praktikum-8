@@ -20,7 +20,7 @@ class Peminjaman extends CI_Controller {
 	 */
 	public $page = 'peminjaman';
 	public $view = 'Peminjaman/';
-	public $limit = 2;
+	public $limit = 10;
 	public function __construct(){
         parent::__construct();
         $this->load->model(['BukuModel','AnggotaModel','GlobalModel']);
@@ -85,18 +85,33 @@ class Peminjaman extends CI_Controller {
 
 	public function store()
 	{
+		// Validation
+		$variable = ['kd_register','kd_anggota','tanggal_pinjam'];
+		foreach ($variable as $key => $value) {
+			$nameLabel = ucwords(str_replace('_',' ',$value));
+			$this->form_validation->set_rules($value,$nameLabel,'required');
+		}
+		
+ 
+		if($this->form_validation->run() == false){
+			echo json_encode(['status' => 'failed' , 'message' => validation_errors()]);
+			return 0;
+		}	
+
 		$q = $this->AnggotaModel->insertDataPeminjaman($this->input->post());
 		if($q)
 		{
-			$this->session->set_flashdata('state', 'success');
-			$this->session->set_flashdata('message', 'Berhasil Tambah Data Peminjaman');
-			redirect($this->view.'index');
+			echo json_encode(['status' => 'success','message' => 'Berhasil Tambah Data Peminjaman']);
+			// $this->session->set_flashdata('state', 'success');
+			// $this->session->set_flashdata('message', 'Berhasil Tambah Data Peminjaman');
+			// redirect($this->view.'index');
 		}
 		else
 		{
-			$this->session->set_flashdata('state', 'danger');
-			$this->session->set_flashdata('message', 'Gagal Tambah Data Peminjaman');
-			redirect($this->view.'index');
+			echo json_encode(['status' => 'failed','message' => 'Gagal Tambah Data Peminjaman']);
+			// $this->session->set_flashdata('state', 'danger');
+			// $this->session->set_flashdata('message', 'Gagal Tambah Data Peminjaman');
+			// redirect($this->view.'index');
 		}
 	}
 
@@ -116,19 +131,35 @@ class Peminjaman extends CI_Controller {
 
 	public function update($id)
 	{
+		// Validation
+		$variable = ['kd_register','kd_anggota','tanggal_pinjam','tanggal_kembali'];
+		foreach ($variable as $key => $value) {
+			$nameLabel = ucwords(str_replace('_',' ',$value));
+			$this->form_validation->set_rules($value,$nameLabel,'required');
+		}
+		
+ 
+		if($this->form_validation->run() == false){
+			echo json_encode(['status' => 'failed' , 'message' => validation_errors()]);
+			return 0;
+		}	
+
+
 		$where = ['kd_pinjam' => $id];
 		$q = $this->AnggotaModel->updateDataPeminjaman($where,$this->input->post());
 		if($q)
 		{
-			$this->session->set_flashdata('state', 'success');
-			$this->session->set_flashdata('message', 'Berhasil Update Data Peminjaman');
-			redirect($this->view.'index');
+			echo json_encode(['status' => 'success','message' => 'Berhasil Update Data Peminjaman']);
+			// $this->session->set_flashdata('state', 'success');
+			// $this->session->set_flashdata('message', 'Berhasil Update Data Peminjaman');
+			// redirect($this->view.'index');
 		}
 		else
 		{
-			$this->session->set_flashdata('state', 'danger');
-			$this->session->set_flashdata('message', 'Gagal Update Data Peminjaman');
-			redirect($this->view.'index');
+			echo json_encode(['status' => 'failed','message' => 'Gagal Update Data Peminjaman']);
+			// $this->session->set_flashdata('state', 'danger');
+			// $this->session->set_flashdata('message', 'Gagal Update Data Peminjaman');
+			// redirect($this->view.'index');
 		}
 	}
 
@@ -140,15 +171,17 @@ class Peminjaman extends CI_Controller {
 
 		if($q)
 		{
-			$this->session->set_flashdata('state', 'success');
-			$this->session->set_flashdata('message', 'Berhasil Hapus Data Peminjaman');
-			redirect($this->view.'index');
+			echo json_encode(['status' => 'success','message' => 'Berhasil Delete Data Peminjaman']);
+			// $this->session->set_flashdata('state', 'success');
+			// $this->session->set_flashdata('message', 'Berhasil Hapus Data Peminjaman');
+			// redirect($this->view.'index');
 		}
 		else
 		{
-			$this->session->set_flashdata('state', 'danger');
-			$this->session->set_flashdata('message', 'Gagal Hapus Data Peminjaman');
-			redirect($this->view.'index');
+			echo json_encode(['status' => 'failed','message' => 'Gagal Delete Data Peminjaman']);
+			// $this->session->set_flashdata('state', 'danger');
+			// $this->session->set_flashdata('message', 'Gagal Hapus Data Peminjaman');
+			// redirect($this->view.'index');
 		}
 	}
 }

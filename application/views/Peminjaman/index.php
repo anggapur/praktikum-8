@@ -31,11 +31,12 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                    <?php if($this->session->flashdata('state')) { ?>
-                    <div class="alert alert-<?=$this->session->flashdata('state')?>">
-                        <?= $this->session->flashdata('message')?>
+                    <div class="alert alert-success" style="display: none;">
+                    
                     </div>
-                    <?php } ?>
+                    <div class="alert alert-danger" style="display: none;">
+                        
+                    </div>
                 </div>
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                     <div class="normal-table-list">
@@ -72,7 +73,7 @@
                                     <?php 
                                     $i = 1;
                                     foreach ($listBuku as $key => $value) { ?>
-                                    <tr>
+                                    <tr id="row<?=$value->kd_pinjam?>">
                                         <td><?= $i++?></td>
                                         <td>
                                             <b><?= $value->judul_buku ?></b><br>
@@ -94,7 +95,8 @@
                                         <td><?= $value->namaPetugas?></td>
                                         <td>
                                             <a href="<?= base_url('Peminjaman/edit/'.$value->kd_pinjam)?>" class="btn btn-sm btn-warning notika-btn-success waves-effect">Edit</a>
-                                            <a href="<?= base_url('Peminjaman/delete/'.$value->kd_pinjam)?>" class="btn btn-sm btn-danger notika-btn-success waves-effect">Delete</a>
+                                            <a data-id="row<?=$value->kd_pinjam?>" href="<?= base_url('Peminjaman/delete/'.$value->kd_pinjam)?>" class="delete-btn btn btn-sm btn-danger notika-btn-success waves-effect">Delete</a>
+
                                         </td>
                                     </tr>
                                 <?php } ?>
@@ -109,3 +111,41 @@
             
         </div>
     </div>
+    <script type="text/javascript">
+        $(document).ready(function(e){
+            $('.delete-btn').click(function(e){
+                e.preventDefault();
+                urls = $(this).attr('href');
+                // alert(urls);
+                dataId = $(this).attr('data-id');
+
+                $.ajax({
+                method : 'GET',
+                url : urls,
+                dataType : 'json',
+                success : function(data){
+                    if(data.status == 'success')
+                    {
+                        $('#'+dataId).fadeOut(300);
+                        $('.alert-success').html(data.message);
+                        $('.alert-success').fadeIn();
+                        setTimeout(function(){
+                            $('.alert-success').fadeOut();
+                        },3000);
+                        
+                    }
+                    else
+                    {
+                        $('.alert-danger').html(data.message);
+                        $('.alert-danger').fadeIn();
+                        setTimeout(function(){
+                            $('.alert-danger').fadeOut();
+                        },3000);  
+                    }
+                }
+            });
+
+                return false;
+            });
+        });
+    </script>
